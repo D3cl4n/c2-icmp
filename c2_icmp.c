@@ -3,6 +3,8 @@
 #include <linux/kernel.h>
 
 MODULE_AUTHOR("Declan Murphy");
+MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("C2 over ICMP sequences");
 MODULE_VERSION("1.0");
 
 static int __init c2_init(void) {

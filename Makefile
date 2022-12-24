@@ -3,7 +3,7 @@
 # compiled to object file and both obj files linked forming .ko file
 # dynamic linker in kernel expects these data structures in .ko files
 
-obj-m = module.o
+obj-m = c2_icmp.o
 KERNEL_VERSION = $(shell uname -r)
 all:
 	make -C /lib/modules/$(KERNEL_VERSION)/build M=$(PWD) modules
@@ -11,5 +11,8 @@ all:
 clean:
 	make -C /lib/modules/$(KERNEL_VERSION)/build/ M=$(PWD) clean
 
-
-	
+test:
+	sudo dmesg -C
+	sudo insmod c2_icmp.ko
+	sudo rmmod c2_icmp.ko
+	dmesg

@@ -4,8 +4,7 @@
 #include <linux/netfilter.h>
 #include <linux/netfilter_ipv4.h>
 #include <linux/ip.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
+#include <linux/icmp.h>
 
 
 MODULE_AUTHOR("Declan Murphy");
@@ -16,7 +15,9 @@ MODULE_VERSION("1.0");
 static struct nf_hook_ops *nfho = NULL;
 
 static unsigned int c2_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
-    return NF_DROP; //packet moves to next stage of network stack
+    struct icmphdr *pkt = (struct icmphdr *) skb_network_header(skb); //cast skb/packet struct to icmphdr
+    printk(KERN_INFO "ICMP checksum: %x", pkt->checksum);
+    return NF_ACCEPT;
 }
 
 static int __init c2_init(void) {

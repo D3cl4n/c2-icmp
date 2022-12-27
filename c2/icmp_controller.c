@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -17,6 +18,7 @@ int main(int argc, char *argv[]) {
 
     sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
     if (sockfd < 0) {
+	printf("[!] Socket creation error\n");
 	exit(SOCKET_CREATE_ERROR);
     }
 

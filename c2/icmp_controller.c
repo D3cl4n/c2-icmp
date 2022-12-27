@@ -7,7 +7,6 @@
 #include <unistd.h>
 #include <string.h>
 
-
 #define SOCKET_CREATE_ERROR 0x1
 #define TEST_BOT "192.168.239.128"
 
@@ -31,9 +30,10 @@ int main(int argc, char *argv[]) {
     icmp_hdr.code = 0;
     icmp_hdr.un.echo.id = 0;
     icmp_hdr.un.echo.sequence = 0;
-    icmp_hdr.un.frag.__unused = cpu_to_be16(1234); 
+    icmp_hdr.un.frag.__glibc_reserved = 0x1337; 
 
     sendto(sockfd, &icmp_hdr, sizeof(icmp_hdr), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+    printf("[+] Sent ICMP echo\n");
     close(sockfd);
 
     return 0;

